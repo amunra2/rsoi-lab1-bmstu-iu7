@@ -42,7 +42,7 @@ jobs:
           key: ${{ secrets.SSH_KEY }}
           port: ${{ secrets.SSH_PORT }}
           source: "src,Docker,dokcer-compose.yml"
-          target: /person-service
+          target: /home/${{ secrets.SSH_USERNAME }}/person-service
         
 
   # build:
