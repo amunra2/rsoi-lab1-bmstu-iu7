@@ -26,6 +26,25 @@ jobs:
       - name: Run tests
         run: cd src && make test
 
+  deploy:
+    name: Deploy service on VM
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+      
+      - name: Copy code to VM
+        uses: appleboy/scp-action@v0.1.4
+        with:
+          host: ${{ secrets.SSH_HOST }}
+          username: ${{ secrets.SSH_USERNAME }}
+          key: ${{ secrets.SSH_KEY }}
+          port: ${{ secrets.SSH_PORT }}
+          source: "src,Docker,dokcer-compose.yml"
+          target: /person-service
+        
+
   # build:
     # name: Autograding
     # runs-on: ubuntu-latest
