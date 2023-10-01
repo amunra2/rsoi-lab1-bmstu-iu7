@@ -1,0 +1,195 @@
+basePath: /
+definitions:
+  dto.Person:
+    properties:
+      address:
+        type: string
+      age:
+        type: integer
+      id:
+        type: integer
+      name:
+        type: string
+      work:
+        type: string
+    type: object
+  dto.PersonCreate:
+    properties:
+      address:
+        type: string
+      age:
+        maximum: 130
+        minimum: 0
+        type: integer
+      name:
+        type: string
+      work:
+        type: string
+    required:
+    - name
+    type: object
+  dto.PersonUpdate:
+    properties:
+      address:
+        type: string
+      age:
+        maximum: 130
+        minimum: 0
+        type: integer
+      name:
+        type: string
+      work:
+        type: string
+    type: object
+  responses.ErrorResponse:
+    properties:
+      message:
+        type: string
+    type: object
+  responses.ValidationErrorResponse:
+    properties:
+      errors:
+        additionalProperties:
+          type: string
+        type: object
+      message:
+        type: string
+    type: object
+host: localhost:8080
+info:
+  contact: {}
+  description: API Server for RSOI Lab01
+  title: RSOI Lab01 API
+  version: "1.0"
+paths:
+  /api/v1/persons:
+    get:
+      consumes:
+      - application/json
+      description: get all persons
+      operationId: getall-person
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/dto.Person'
+            type: array
+      summary: Get all persons
+      tags:
+      - persons
+    post:
+      consumes:
+      - application/json
+      description: create person
+      operationId: create-person
+      parameters:
+      - description: person info
+        in: body
+        name: input
+        required: true
+        schema:
+          $ref: '#/definitions/dto.PersonCreate'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+          headers:
+            Location:
+              description: Path to new person
+              type: string
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/responses.ValidationErrorResponse'
+      summary: Create person
+      tags:
+      - persons
+  /api/v1/persons/{id}:
+    delete:
+      consumes:
+      - application/json
+      description: delete person by id
+      operationId: delete-person
+      parameters:
+      - description: Person Id
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "204":
+          description: No Content
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/responses.ErrorResponse'
+      summary: Delete person by id
+      tags:
+      - persons
+    get:
+      consumes:
+      - application/json
+      description: get person by id
+      operationId: getbyid-person
+      parameters:
+      - description: Person Id
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/dto.Person'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/responses.ErrorResponse'
+      summary: Get person by id
+      tags:
+      - persons
+    patch:
+      consumes:
+      - application/json
+      description: update person
+      operationId: update-person
+      parameters:
+      - description: Person Id
+        in: path
+        name: id
+        required: true
+        type: integer
+      - description: person update info
+        in: body
+        name: input
+        required: true
+        schema:
+          $ref: '#/definitions/dto.PersonUpdate'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/dto.Person'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/responses.ValidationErrorResponse'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/responses.ErrorResponse'
+      summary: Update person
+      tags:
+      - persons
+swagger: "2.0"

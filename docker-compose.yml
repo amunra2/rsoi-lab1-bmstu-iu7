@@ -1,18 +1,58 @@
 version: "3"
+
+name: rsoi-lab01
+
 services:
+  # backend:
+  #   build: ./backend/
+  #   command: ./wait-for-postgres.sh postgres ./todo-app
+  #   ports:
+  #     - 8000:8000
+  #   depends_on:
+  #     - postgres
+  #   environment:
+  #     - DB_PASSWORD=postgres
+
   postgres:
-    image: library/postgres:13
+    image: postgres:latest
     container_name: postgres
     restart: on-failure
     environment:
+      POSTGRES_DB: lab01
       POSTGRES_USER: postgres
-      POSTGRES_PASSWORD: "postgres"
-      POSTGRES_DB: postgres
+      POSTGRES_PASSWORD: postgres
     volumes:
       - db-data:/var/lib/postgresql/data
-      - ./postgres/:/docker-entrypoint-initdb.d/
     ports:
       - "5432:5432"
+    networks:
+      - database
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -d $$POSTGRES_DB -U $$POSTGRES_USER"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
 
+  person-service:
+    # image: 
+    build: .
+    container_name: person-service
+    ports:
+      - "8080:8080"
+    depends_on:
+      postgres:
+        condition: service_healthy
+    volumes:
+      - ./src/config/for-docker.yaml:/usr/local/etc/person-service/config.yaml
+    networks:
+      - service
+      - database
+    
 volumes:
   db-data:
+
+networks:
+  service:
+    driver: bridge
+  database:
+    driver: bridge
