@@ -8,9 +8,8 @@ import (
 	"github.com/ilyakaznacheev/cleanenv"
 )
 
-const CONFIG_PATH = "./config/local.yaml"
-
-// const CONFIG_PATH = "/usr/local/etc/person-service/config.yaml"
+// const CONFIG_PATH = "./config/local.yaml"
+const CONFIG_PATH = "/usr/local/etc/person-service/config.yaml"
 
 type Config struct {
 	Env        string `yaml:"env" env-default:"local"`
