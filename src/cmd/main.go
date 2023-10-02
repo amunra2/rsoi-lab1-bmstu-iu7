@@ -11,7 +11,7 @@ import (
 // @version 1.0
 // @description API Server for RSOI Lab01
 
-// @host localhost:8080
+// @host http://212.233.95.128:8080
 // @BasePath /
 func main() {
 	cfg := config.Load()
