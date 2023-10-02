@@ -6,7 +6,7 @@
         "contact": {},
         "version": "1.0"
     },
-    "host": "http://212.233.95.128:8080",
+    "host": "212.233.95.128:8080",
     "basePath": "/",
     "paths": {
         "/api/v1/persons": {
