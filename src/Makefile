@@ -4,7 +4,7 @@ build:
 
 # Test
 test:
-	go test -tags=testing ./...
+	go test -v -count=1 -tags=testing ./...
 
 # Migrations
 ## Create
