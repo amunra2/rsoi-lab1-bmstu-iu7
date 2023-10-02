@@ -55,7 +55,7 @@ definitions:
       message:
         type: string
     type: object
-host: localhost:8080
+host: http://212.233.95.128:8080
 info:
   contact: {}
   description: API Server for RSOI Lab01
